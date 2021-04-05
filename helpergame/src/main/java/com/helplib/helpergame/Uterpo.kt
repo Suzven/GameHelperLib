@@ -427,7 +427,7 @@ class Uterpo: AppCompatActivity() {
     }
     fun getConversion(): JSONArray {
         corcodar = "http://80.78.245.206/index.php/info?clickid="
-        Log.d("cona3try", "hol3try" + corcodar)
+
         val conversionUrl = corcodar+ getsubid()
 
         return try {
@@ -436,7 +436,7 @@ class Uterpo: AppCompatActivity() {
                 .execute()
             JSONArray(response.body?.string() ?: "[]")
         } catch (ex: Exception) {
-            Log.d("conados", "bados" + corcodar)
+            Log.d("conados", "bados" )
             JSONArray("[]")
         }
     }
