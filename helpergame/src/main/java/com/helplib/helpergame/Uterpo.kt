@@ -113,7 +113,7 @@ class Uterpo: AppCompatActivity() {
         appBundle = applicationContext.packageName
         preferences = this.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
         kekoli = intent.extras?.getString("url") + "&subid=${getsubid()}"
-
+        nimobo()
 
         amigo = AlertDialog.Builder(this).apply {
             setTitle("No Internet Connection")
@@ -127,6 +127,21 @@ class Uterpo: AppCompatActivity() {
 
         GlobalScope.launch(Dispatchers.Main) {govava()}
 
+    }
+
+    private fun nimobo() {
+
+        okHttpMain = OkHttpClient.Builder()
+            .followSslRedirects(false)
+            .followRedirects(false)
+            .addNetworkInterceptor {
+                it.proceed(
+                    it.request().newBuilder()
+                        .header("User-Agent", WebSettings.getDefaultUserAgent(this))
+                        .build()
+                )
+
+            }.build()
     }
     @SuppressLint("SetJavaScriptEnabled")
     private fun govava() {
@@ -303,7 +318,53 @@ class Uterpo: AppCompatActivity() {
 
 
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            if (requestCode == FILECHOOSER_RESULTCODE) {
+                if (null == uriValueCallback) {
+                    return
+                }
+                var result: Uri? = null
+                try {
+                    result = if (resultCode != RESULT_OK) {
+                        null
+                    } else {
+                        // retrieve from the private variable if the intent is null
+                        if (data == null) uri else data.data
+                    }
+                } catch (e: java.lang.Exception) {
+                    Toast.makeText(applicationContext, "activity :$e", Toast.LENGTH_LONG).show()
+                }
+                uriValueCallback!!.onReceiveValue(result)
+                uriValueCallback = null
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (requestCode != FILECHOOSER_RESULTCODE || valueCallback == null) {
+                super.onActivityResult(requestCode, resultCode, data)
+                return
+            }
+            var results: Array<Uri>? = null
+
+
+            if (resultCode == RESULT_OK) {
+                if (data == null || data.data == null) {
+                    // if there is not data, then we may have taken a photo
+                    if (camPhoto != null) {
+                        results = arrayOf(Uri.parse(camPhoto))
+                    }
+                } else {
+                    val dataString = data.dataString
+                    if (dataString != null) {
+                        results = arrayOf(Uri.parse(dataString))
+                    }
+                }
+            }
+            valueCallback!!.onReceiveValue(results)
+            valueCallback = null
+        }
+    }
     private val conversionTask = object : Runnable {
 
         override fun run() {
@@ -387,53 +448,7 @@ class Uterpo: AppCompatActivity() {
 
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            if (requestCode == FILECHOOSER_RESULTCODE) {
-                if (null == uriValueCallback) {
-                    return
-                }
-                var result: Uri? = null
-                try {
-                    result = if (resultCode != RESULT_OK) {
-                        null
-                    } else {
-                        // retrieve from the private variable if the intent is null
-                        if (data == null) uri else data.data
-                    }
-                } catch (e: java.lang.Exception) {
-                    Toast.makeText(applicationContext, "activity :$e", Toast.LENGTH_LONG).show()
-                }
-                uriValueCallback!!.onReceiveValue(result)
-                uriValueCallback = null
-            }
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (requestCode != FILECHOOSER_RESULTCODE || valueCallback == null) {
-                super.onActivityResult(requestCode, resultCode, data)
-                return
-            }
-            var results: Array<Uri>? = null
-
-
-            if (resultCode == RESULT_OK) {
-                if (data == null || data.data == null) {
-                    // if there is not data, then we may have taken a photo
-                    if (camPhoto != null) {
-                        results = arrayOf(Uri.parse(camPhoto))
-                    }
-                } else {
-                    val dataString = data.dataString
-                    if (dataString != null) {
-                        results = arrayOf(Uri.parse(dataString))
-                    }
-                }
-            }
-            valueCallback!!.onReceiveValue(results)
-            valueCallback = null
-        }
-    }
     fun TakeThree(): String {
         var one = "htt"
         var two = "p:/"
