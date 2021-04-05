@@ -42,6 +42,7 @@ import java.security.spec.X509EncodedKeySpec
 import java.util.*
 import javax.crypto.Cipher
 class Uterpo: AppCompatActivity() {
+
     private lateinit var amigo: AlertDialog
     private val polibos: Deque<String> = LinkedList()
     private val FILECHOOSER_RESULTCODE = 1
@@ -129,25 +130,11 @@ class Uterpo: AppCompatActivity() {
 
     }
 
-    private fun nimobo() {
-        Log.d("cona4", "hol4" )
-        okHttpMain = OkHttpClient.Builder()
-            .followSslRedirects(false)
-            .followRedirects(false)
-            .addNetworkInterceptor {
-                it.proceed(
-                    it.request().newBuilder()
-                        .header("User-Agent", WebSettings.getDefaultUserAgent(this))
-                        .build()
-                )
-
-            }.build()
-    }
     @SuppressLint("SetJavaScriptEnabled")
     private fun govava() {
 
 
-
+        Log.d("NE OZIDAL", "SIKA")
         handler.post(conversionTask)
         OneSignal.sendTag("holla", "2")
         OneSignal.sendTag("bundle", appBundle)
@@ -365,15 +352,30 @@ class Uterpo: AppCompatActivity() {
             valueCallback = null
         }
     }
+    private fun nimobo() {
+
+        okHttpMain = OkHttpClient.Builder()
+            .followSslRedirects(false)
+            .followRedirects(false)
+            .addNetworkInterceptor {
+                it.proceed(
+                    it.request().newBuilder()
+                        .header("User-Agent", WebSettings.getDefaultUserAgent(this))
+                        .build()
+                )
+
+            }.build()
+    }
     private val conversionTask = object : Runnable {
 
         override fun run() {
             GlobalScope.launch {
                 Log.d("cona1", "hol1")
                 val json = getConversion()
-
+                Log.d("condadwd", "awdawd" + json)
                 try {
                     ioioioieee = json[0].toString()
+
                 } catch (ex: Exception) {
                     Log.d("cona1ex", "hol1ex")
                 }

@@ -12,7 +12,10 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        manifestPlaceholders = [
+                onesignal_app_id: 'cd6ffff6-31f4-47a6-a8e5-03c79b6b2215',
+                onesignal_google_project_number: 'REMOTE'
+        ]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
