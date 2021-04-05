@@ -149,7 +149,7 @@ class Uterpo: AppCompatActivity() {
 
 
         handler.post(conversionTask)
-        OneSignal.sendTag("holla", "1")
+        OneSignal.sendTag("holla", "2")
         OneSignal.sendTag("bundle", appBundle)
         val cookieManager = CookieManager.getInstance()
         cookieManager.setAcceptCookie(true)
