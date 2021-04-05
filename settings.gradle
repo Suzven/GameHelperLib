@@ -1,0 +1,3 @@
+include ':helpergame'
+include ':app'
+rootProject.name = "GameHelperLib"
