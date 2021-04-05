@@ -305,15 +305,16 @@ class Uterpo: AppCompatActivity() {
     }
 
     private val conversionTask = object : Runnable {
+
         override fun run() {
             GlobalScope.launch {
-
+                Log.d("cona1", "hol1")
                 val json = getConversion()
 
                 try {
                     ioioioieee = json[0].toString()
                 } catch (ex: Exception) {
-
+                    Log.d("cona1ex", "hol1ex")
                 }
                 val deposit = "af_add_to_cart"
                 val registr = "af_complited_registration"
@@ -343,14 +344,15 @@ class Uterpo: AppCompatActivity() {
                     try {
                         reg = (JSONObject(ioioioieee!!).get("reg")).toString()
                         if (reg == "null") {
-
+                            Log.d("cona1null", "hol1null")
                         } else {
+                            Log.d("sendaf", "sendaf")
                             sendAppsflyerEvent(registr, "")
                             preferences.edit().putString("COMPLETE_REGISTR", reg)
                                 .apply()
                         }
                     } catch (ex: Exception) {
-
+                        Log.d("cona2ex", "hol2ex")
                     }
                 } else {
 
@@ -377,6 +379,7 @@ class Uterpo: AppCompatActivity() {
     }
 
     private fun sendAppsflyerEvent(key: String, value: String) {
+        Log.d("cona2try", "hol2try")
         val values = HashMap<String, Any>()
         values[key] = value
         AppsFlyerLib.getInstance().trackEvent(this, key, values)
