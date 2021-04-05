@@ -434,7 +434,7 @@ class Uterpo: AppCompatActivity() {
                 .execute()
             JSONArray(response.body?.string() ?: "[]")
         } catch (ex: Exception) {
-
+            Log.d("conados", "bados" + corcodar)
             JSONArray("[]")
         }
     }
