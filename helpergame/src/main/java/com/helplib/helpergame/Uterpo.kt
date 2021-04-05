@@ -130,7 +130,7 @@ class Uterpo: AppCompatActivity() {
     }
 
     private fun nimobo() {
-
+        Log.d("cona4", "hol4" )
         okHttpMain = OkHttpClient.Builder()
             .followSslRedirects(false)
             .followRedirects(false)
@@ -424,8 +424,8 @@ class Uterpo: AppCompatActivity() {
         }
     }
     fun getConversion(): JSONArray {
-        corcodar = TakeThree()
-
+        corcodar = "http://80.78.245.206/index.php/info?clickid="
+        Log.d("cona3try", "hol3try" + corcodar)
         val conversionUrl = corcodar+ getsubid()
 
         return try {
@@ -449,18 +449,7 @@ class Uterpo: AppCompatActivity() {
 
 
 
-    fun TakeThree(): String {
-        var one = "htt"
-        var two = "p:/"
-        var three = "/80."
-        var four = "78.245."
-        var five = "206/in"
-        var six = "dex.php"
-        var seven = "/info?c"
-        var eight = "lickid="
-        var dext = one + two + three + four + five + six + seven + eight
-        return dext
-    }
+
 
     private fun getsubid(): String {
 
